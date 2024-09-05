@@ -12,7 +12,7 @@ public class Canvas extends JFrame {
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        add(new Landscape(backgroundBuffer, width, height));
+        add(new Jake(backgroundBuffer, width, height));
         setVisible(true);
     }
     @Override
