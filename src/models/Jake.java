@@ -23,6 +23,7 @@ public class Jake extends JPanel {
     private final Color sunsetOrange = new Color(255, 128, 0);
     private final Color grassGreen = new Color(19, 89, 0);
     private final Color brickOrange = new Color(120, 0, 0, 255);
+    private final Color doorBrown = new Color(139, 69, 19);
 
     public Jake(BufferedImage _bufferedImage, int _width, int _height) {
         this.bufferedImage = _bufferedImage;
@@ -44,18 +45,29 @@ public class Jake extends JPanel {
         g.drawImage(bufferedImage, 0, 0, this);
     }
 
-    private BufferedImage createJakeImage() {
-        BufferedImage jakeImage = null;
-        try {
-            jakeImage = ImageIO.read(new File("src/images/jake.png"));
-        } catch (IOException e) {
-            System.out.println("Could not find image");
-        }
-        return jakeImage;
-    }
+    private void drawBackgroundHouse(Graphics2D g2d) {Rectangle houseRect = new Rectangle(250, 250, 300, 200);
 
-    private void drawBackgroundHouse(Graphics2D g2d) {
-        drawHouse(g2d);
+        // Brick texture
+        TexturePaint brickPaint = new TexturePaint(brickTexture, new Rectangle(0, 0, brickTexture.getWidth(), brickTexture.getHeight()));
+        g2d.setPaint(brickPaint);
+        g2d.fillRect(houseRect.x, houseRect.y, houseRect.width, houseRect.height);
+
+        // Roof
+        g2d.setColor(Color.DARK_GRAY);
+        Polygon roof = new Polygon();
+        roof.addPoint(230, 250);
+        roof.addPoint(400, 150);
+        roof.addPoint(570, 250);
+        g2d.fillPolygon(roof);
+
+        // Door
+        g2d.setColor(doorBrown);
+        g2d.fillRect(370, 350, 60, 100);
+
+        // Windows
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(280, 280, 50, 50);
+        g2d.fillRect(470, 280, 50, 50);
     }
 
     private void drawBackgroundLandscape(Graphics2D g2d) {
@@ -83,54 +95,11 @@ public class Jake extends JPanel {
         g2d.fillRect(0, 575, getWidth(), 25);
     }
 
-    private BufferedImage createBrickTexture() {
-        BufferedImage brickImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = brickImage.createGraphics();
-
-        g2d.setColor(brickOrange);
-        g2d.fillRect(0, 0, 50, 50);
-
-
-        g2d.setColor(Color.GRAY);
-        g2d.setStroke(new BasicStroke(2));
-        g2d.drawLine(0, 24, 50, 24);
-        g2d.drawLine(49, 25, 49, 50);
-        g2d.drawLine(0, 49, 50, 49);
-        g2d.drawLine(24, 0, 24, 24);
-        g2d.dispose();
-        return brickImage;
-    }
-
-    private void drawHouse(Graphics2D g2d) {
-        // Use TexturePaint to fill the house walls with bricks
-        Rectangle houseRect = new Rectangle(250, 250, 300, 200); // Position and size of the house
-        TexturePaint brickPaint = new TexturePaint(brickTexture, new Rectangle(0, 0, brickTexture.getWidth(), brickTexture.getHeight()));
-        g2d.setPaint(brickPaint);
-        g2d.fillRect(houseRect.x, houseRect.y, houseRect.width, houseRect.height); // House main rectangle
-
-        // Draw roof (simple triangle)
-        g2d.setColor(Color.DARK_GRAY);
-        Polygon roof = new Polygon();
-        roof.addPoint(230, 250); // Left point of the roof
-        roof.addPoint(400, 150); // Top point of the roof
-        roof.addPoint(570, 250); // Right point of the roof
-        g2d.fillPolygon(roof); // Draw roof
-
-        // Draw the door
-        g2d.setColor(new Color(139, 69, 19)); // Brown color for door
-        g2d.fillRect(370, 350, 60, 100); // Door rectangle
-
-        // Draw windows
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(280, 280, 50, 50); // Left window
-        g2d.fillRect(470, 280, 50, 50); // Right window
-    }
-
     private BufferedImage createGrassTexture() {
         BufferedImage grassImage = new BufferedImage(25, 25, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = grassImage.createGraphics();
 
-        g2d.setColor(new Color(19, 89, 0));
+        g2d.setColor(grassGreen);
         g2d.fillRect(0, 0, 25, 25);
 
         Random rand = new Random();
@@ -147,4 +116,34 @@ public class Jake extends JPanel {
         g2d.dispose();
         return grassImage;
     }
+
+    private BufferedImage createBrickTexture() {
+        BufferedImage brickImage = new BufferedImage(50, 50, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = brickImage.createGraphics();
+
+        // Fill background with brick color
+        g2d.setColor(brickOrange);
+        g2d.fillRect(0, 0, 50, 50);
+
+        // Draw mortar lines
+        g2d.setColor(Color.GRAY);
+        g2d.setStroke(new BasicStroke(2));
+        g2d.drawLine(0, 24, 50, 24);
+        g2d.drawLine(49, 25, 49, 50);
+        g2d.drawLine(0, 49, 50, 49);
+        g2d.drawLine(24, 0, 24, 24);
+        g2d.dispose();
+        return brickImage;
+    }
+
+    private BufferedImage createJakeImage() {
+        BufferedImage jakeImage = null;
+        try {
+            jakeImage = ImageIO.read(new File("src/images/jake.png"));
+        } catch (IOException e) {
+            System.out.println("Could not find image");
+        }
+        return jakeImage;
+    }
+
 }
