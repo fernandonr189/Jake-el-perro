@@ -19,6 +19,10 @@ public class Jake extends JPanel {
     private final BufferedImage grassTexture;
     private final int width, height;
 
+    private final Color nightBlue = new Color(0, 45, 101);
+    private final Color sunsetOrange = new Color(255, 128, 0);
+    private final Color grassGreen = new Color(19, 89, 0);
+
     public Jake(BufferedImage _bufferedImage, int _width, int _height) {
         this.bufferedImage = _bufferedImage;
         this.width = _width;
@@ -54,11 +58,6 @@ public class Jake extends JPanel {
 
     private void drawBackgroundLandscape(Graphics2D g2d) {
 
-        // Colors
-        Color nightBlue = new Color(0, 45, 101);
-        Color sunsetOrange = new Color(255, 128, 0);
-        Color grassGreen = new Color(19, 89, 0);
-
         // Background gradient
         GradientPaint gradient = new GradientPaint(0, 0, nightBlue, 0, getHeight() * (2), sunsetOrange);
         g2d.setPaint(gradient);
@@ -77,11 +76,6 @@ public class Jake extends JPanel {
         g2d.setPaint(gradient2);
         g2d.fillArc(0, 400, 800, 250, 0, 180);
         g2d.fillRect(0, 525, 800, 600);
-        drawGrassTexture(g2d);
-    }
-
-    private void drawGrassTexture(Graphics2D g2d) {
-        int grassHeight = 25;
         TexturePaint grassPaint = new TexturePaint(grassTexture, new Rectangle(0, 0, grassTexture.getWidth(), grassTexture.getHeight()));
         g2d.setPaint(grassPaint);
         g2d.fillRect(0, 575, getWidth(), 25);
