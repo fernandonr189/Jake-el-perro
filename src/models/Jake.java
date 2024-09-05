@@ -1,8 +1,12 @@
 package models;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.Random;
 
 import static java.lang.Math.*;
@@ -11,6 +15,7 @@ public class Jake extends JPanel {
 
 
     private final BufferedImage bufferedImage;
+    private final BufferedImage jakeTheDog;
     private final BufferedImage grassTexture;
     private final int width, height;
 
@@ -19,6 +24,7 @@ public class Jake extends JPanel {
         this.width = _width;
         this.height = _height;
         this.grassTexture = createGrassTexture();
+        this.jakeTheDog = createJakeImage();
     }
 
     @Override
@@ -30,9 +36,21 @@ public class Jake extends JPanel {
         // TODO Actually draw jake
 
         drawBackgroundLandscape(graphics2D);
+        graphics2D.drawImage(jakeTheDog, 250, 230, this);
 
         g.drawImage(bufferedImage, 0, 0, this);
     }
+
+    private BufferedImage createJakeImage() {
+        BufferedImage jakeImage = null;
+        try {
+            jakeImage = ImageIO.read(new File("src/images/jake.png"));
+        } catch (IOException e) {
+            System.out.println("Could not find image");
+        }
+        return jakeImage;
+    }
+
 
     private void drawBackgroundLandscape(Graphics2D g2d) {
 
@@ -49,8 +67,8 @@ public class Jake extends JPanel {
         // Stars
         g2d.setColor(Color.WHITE);
         for(int i = 0; i < 50; i++) {
-            int randX = (int) (Math.random() * (800));
-            int randY = (int) (Math.random() * (250));
+            int randX = (int) (random() * (800));
+            int randY = (int) (random() * (250));
             g2d.drawLine(randX, randY, randX, randY);
         }
 
